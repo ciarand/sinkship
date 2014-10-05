@@ -32,16 +32,30 @@ Sinkship will read token information from the following locations, in order:
 
 Run the tool:
 
+[,bash]
 ----
-sinkship
-INFO[0001] Found 7 droplets, preparing to delete
-INFO[0002] [1] deleted coreos-minion (2787963)
-INFO[0002] [2] deleted coreos-minion (2787964)
-INFO[0002] [3] deleted coreos-minion (2787965)
-INFO[0002] [4] deleted coreos-minion (2787966)
-INFO[0002] [5] deleted coreos-minion (2787967)
-INFO[0002] [6] deleted coreos-minion (2787968)
-INFO[0002] [7] deleted coreos-minion (2787969)
+$ sinkship
+INFO[0000] Found 20 droplets, preparing to delete
+INFO[0001] [1] deleted coreos-minion (2788310)
+INFO[0001] [2] deleted coreos-minion (2788316)
+INFO[0002] [3] deleted coreos-minion (2788322)
+INFO[0002] [4] deleted coreos-minion (2788314)
+INFO[0002] [5] deleted coreos-minion (2788309)
+INFO[0002] [6] deleted coreos-minion (2788320)
+INFO[0002] [7] deleted coreos-minion (2788317)
+INFO[0002] [8] deleted coreos-minion (2788318)
+INFO[0002] [9] deleted coreos-minion (2788321)
+INFO[0002] [10] deleted coreos-leader (2788326)
+INFO[0002] [11] deleted coreos-minion (2788323)
+INFO[0002] [12] deleted coreos-minion (2788315)
+INFO[0002] [13] deleted coreos-minion (2788325)
+INFO[0002] [14] deleted coreos-minion (2788307)
+INFO[0002] [15] deleted coreos-minion (2788311)
+INFO[0002] [16] deleted coreos-minion (2788312)
+INFO[0002] [17] deleted coreos-minion (2788324)
+INFO[0002] [18] deleted coreos-minion (2788313)
+INFO[0002] [19] deleted coreos-minion (2788319)
+INFO[0002] [20] deleted coreos-minion (2788308)
 ----
 
 License
