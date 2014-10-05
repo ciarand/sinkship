@@ -35,13 +35,13 @@ Run the tool:
 ----
 sinkship
 INFO[0001] Found 7 droplets, preparing to delete
-INFO[0002] [0] deleted coreos-minion (2787963)
-INFO[0002] [1] deleted coreos-minion (2787964)
-INFO[0002] [2] deleted coreos-minion (2787965)
-INFO[0002] [3] deleted coreos-minion (2787966)
-INFO[0002] [4] deleted coreos-minion (2787967)
-INFO[0002] [5] deleted coreos-minion (2787968)
-INFO[0002] [6] deleted coreos-minion (2787969)
+INFO[0002] [1] deleted coreos-minion (2787963)
+INFO[0002] [2] deleted coreos-minion (2787964)
+INFO[0002] [3] deleted coreos-minion (2787965)
+INFO[0002] [4] deleted coreos-minion (2787966)
+INFO[0002] [5] deleted coreos-minion (2787967)
+INFO[0002] [6] deleted coreos-minion (2787968)
+INFO[0002] [7] deleted coreos-minion (2787969)
 ----
 
 License
