@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-// a function that provides a means to retrieve a token
-type TokenGetter func() (string, error)
+// Token Getter is a function that can retrieve a token
+type tokenGetter func() (string, error)
 
 // goes through the provided TokenGetter chain and stops once one reports
 // a non-"" value. If any produce errors it'll wrap those up and return 'em.
-func getTokenFromChain(getters ...TokenGetter) (string, error) {
+func getTokenFromChain(getters ...tokenGetter) (string, error) {
 	errs := make([]string, len(getters))
 
 	for _, g := range getters {
@@ -48,9 +48,7 @@ func getTokenFromEnv() (string, error) {
 
 // checks the "-token" flag on the CLI
 func getTokenFromCli() (string, error) {
-	var str *string
-
-	flag.StringVar(str, "token", "", "The token to use with the DO API")
+	str := flag.String("token", "", "The token to use with the DO API")
 	flag.Parse()
 
 	return *str, nil
