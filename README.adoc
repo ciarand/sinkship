@@ -1,0 +1,33 @@
+sinkship
+========
+
+[quote]
+A small utility to help manage the destruction of DigitalOcean droplets.
+
+Got a little crazy with *just how easy* creating Droplets on DigitalOcean is?
+Added too many 0s to Terraform's count parameter? Don't worry, Sinkship can
+help.
+
+Usage
+-----
+Get the tool:
+
+----
+go get github.com/ciarand/sinkship
+----
+
+Create a token file:
+
+----
+echo "token from https://cloud.digitalocean.com/settings/tokens/new" > token
+----
+
+Run the tool:
+
+----
+sinkship
+----
+
+License
+-------
+ISC license, see the LICENSE file.
