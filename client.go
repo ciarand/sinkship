@@ -5,7 +5,7 @@ import (
 	"github.com/digitalocean/godo"
 )
 
-// create a new client using the provided access token
+// NewClient creates a new Client using the provided access token
 func NewClient(token string) *Client {
 	t := &oauth.Transport{
 		Token: &oauth.Token{AccessToken: token},
@@ -14,7 +14,8 @@ func NewClient(token string) *Client {
 	return &Client{godo.NewClient(t.Client())}
 }
 
-// an invisible wrapper around godo.Client to allow for method additions
+// Client is an invisible wrapper around godo.Client to allow for method
+// additions
 type Client struct {
 	*godo.Client
 }
