@@ -20,7 +20,7 @@ Create a personal access token (PAT) from your
 https://cloud.digitalocean.com/settings/tokens/new[Digital Ocean control panel].
 
 [NOTE]
-===
+====
 Sinkship will read token information from the following locations, in order:
 
 - The CLI flag "-token"
@@ -28,7 +28,7 @@ Sinkship will read token information from the following locations, in order:
 - The environmental variable "DO_TOKEN"
 
 - The file "token" in the current directory
-===
+====
 
 Run the tool:
 
