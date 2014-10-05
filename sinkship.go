@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf("couldn't get token: %s", err.Error())
 	}
 
-	client := NewClient(pat)
+	client := newClient(pat)
 
 	// get a list of all the droplets
 	droplets, _, err := client.Droplets.List(nil)
