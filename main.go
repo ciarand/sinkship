@@ -1,6 +1,10 @@
 package main
 
 import (
+	"errors"
+	"flag"
+	"os"
+	"strings"
 	"sync"
 
 	log "github.com/Sirupsen/logrus"
@@ -11,48 +15,83 @@ import (
 import "io/ioutil"
 
 func main() {
-	pat, err := getTokenFromFile("token")
+	// try a couple of different places to find the file
+	pat, err := getTokenChain(getTokenFromCli, getTokenFromEnv, getTokenFromFile)
 	if err != nil {
 		log.Fatalf("couldn't get token: %s", err.Error())
 	}
 
-	t := &oauth.Transport{
-		Token: &oauth.Token{AccessToken: pat},
-	}
+	client := NewClient(pat)
 
-	client := godo.NewClient(t.Client())
-
-	drops, _, err := client.Droplets.List(nil)
+	droplets, _, err := client.Droplets.List(nil)
 	if err != nil {
-		log.Fatal("couldn't get a list of your droplets: %s", err.Error())
+		log.Fatalf("couldn't get a list of your droplets: %s", err.Error())
 	}
 
-	if len(drops) == 0 {
+	if len(droplets) == 0 {
 		log.Info("You've got no droplets in your account.")
 		return
 	}
 
-	log.Info("Found %d droplets, preparing to delete", len(drops))
+	log.Infof("Found %d droplets, preparing to delete", len(droplets))
 	wg := &sync.WaitGroup{}
+	mut := &sync.Mutex{}
+	count := 0
 
-	for _, d := range drops {
+	for _, v := range droplets {
 		wg.Add(1)
-		go func() {
-			err := tryToDeleteDroplet(client, d)
+		go func(droplet godo.Droplet) {
+			_, err := client.Droplets.Delete(droplet.ID)
+			mut.Lock()
+			count++
 			if err != nil {
-				log.Errorf("couldn't delete droplet %s (%d): %s", d.Name, d.ID, err)
+				log.Errorf("[%d] couldn't delete droplet %s (%d):\n\t%s", count, droplet.Name, droplet.ID, err)
+			} else {
+				log.Infof("[%d] deleted %s (%d)", count, droplet.Name, droplet.ID)
 			}
+			mut.Unlock()
 
-			log.Info("deleted %s (%s)", d.Name, d.ID)
 			wg.Done()
-		}()
+		}(v)
 	}
 
 	wg.Wait()
 }
 
-func getTokenFromFile(file string) (string, error) {
-	bytes, err := ioutil.ReadFile(file)
+func NewClient(token string) *Client {
+	t := &oauth.Transport{
+		Token: &oauth.Token{AccessToken: token},
+	}
+
+	return &Client{godo.NewClient(t.Client())}
+}
+
+type Client struct {
+	*godo.Client
+}
+
+type TokenGetter func() (string, error)
+
+func getTokenChain(getters ...TokenGetter) (string, error) {
+	errs := make([]string, len(getters))
+
+	for _, g := range getters {
+		str, err := g()
+		if err != nil {
+			errs = append(errs, err.Error())
+			continue
+		}
+
+		if str != "" {
+			return str, nil
+		}
+	}
+
+	return "", errors.New(strings.Join(errs, "\n"))
+}
+
+func getTokenFromFile() (string, error) {
+	bytes, err := ioutil.ReadFile("token")
 	if err != nil {
 		return "", err
 	}
@@ -60,12 +99,15 @@ func getTokenFromFile(file string) (string, error) {
 	return string(bytes), nil
 }
 
-func tryToDeleteDroplet(c *godo.Client, d godo.Droplet) error {
-	_, err := c.Droplets.Delete(d.ID)
+func getTokenFromEnv() (string, error) {
+	return os.Getenv("DO_TOKEN"), nil
+}
 
-	if err != nil {
-		return err
-	}
+func getTokenFromCli() (string, error) {
+	var str *string
 
-	return nil
+	flag.StringVar(str, "token", "", "The token to use with the DO API")
+	flag.Parse()
+
+	return *str, nil
 }

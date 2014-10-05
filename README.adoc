@@ -16,16 +16,32 @@ Get the tool:
 go get github.com/ciarand/sinkship
 ----
 
-Create a token file:
+Create a personal access token (PAT) from your
+https://cloud.digitalocean.com/settings/tokens/new[Digital Ocean control panel].
 
-----
-echo "token from https://cloud.digitalocean.com/settings/tokens/new" > token
-----
+[NOTE]
+===
+Sinkship will read token information from the following locations, in order:
+
+- The CLI flag "-token"
+
+- The environmental variable "DO_TOKEN"
+
+- The file "token" in the current directory
+===
 
 Run the tool:
 
 ----
 sinkship
+INFO[0001] Found 7 droplets, preparing to delete
+INFO[0002] [0] deleted coreos-minion (2787963)
+INFO[0002] [1] deleted coreos-minion (2787964)
+INFO[0002] [2] deleted coreos-minion (2787965)
+INFO[0002] [3] deleted coreos-minion (2787966)
+INFO[0002] [4] deleted coreos-minion (2787967)
+INFO[0002] [5] deleted coreos-minion (2787968)
+INFO[0002] [6] deleted coreos-minion (2787969)
 ----
 
 License
