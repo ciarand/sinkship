@@ -17,7 +17,7 @@ go get github.com/ciarand/sinkship
 ----
 
 Create a personal access token (PAT) from your
-https://cloud.digitalocean.com/settings/tokens/new[Digital Ocean control panel].
+https://cloud.digitalocean.com/settings/tokens/new[DigitalOcean control panel].
 
 [NOTE]
 ====
